@@ -21,7 +21,7 @@ IOManager::IOManager() {
 	std::clog << "Using " <<  ioenvironment->get_name() << std::endl;
 	std::clog << "Current formatter chain:" << std::endl;
 
-	if (formatter_decorators = nullptr) {
+	if (formatter_decorators == nullptr) {
 		std::cerr << "Error! Formatter chain empty!" << std::endl;
 		return;
 	}
