@@ -1,12 +1,11 @@
 #pragma once
 
-#include <IO/formatter/parser/ParseUnit.hpp>
+#include <IO/formatters/parser/ParseUnit.hpp>
 
-#include <memory>
-#include <span>
 #include <vector>
 
 class CommandParser {
 public:
-	std::unique_ptr<ParseUnit[]> parse_to_units(std::string to_parse, std::span<std::string> commands);
-}
+	static std::string::const_iterator pair_bracket(std::string::const_iterator beginning, std::string::const_iterator end, std::string::value_type opening_bracket = '{', std::string::value_type closing_bracket = '}');
+	static std::vector<ParseUnit> parse_to_units(std::string to_parse, std::vector<std::string> commands = {});
+};

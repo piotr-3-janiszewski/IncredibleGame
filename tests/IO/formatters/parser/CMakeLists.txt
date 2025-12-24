@@ -1,0 +1,21 @@
+add_executable(suite_Command_str_exec suite_Command_str.cpp)
+target_link_libraries(suite_Command_str_exec
+	parserio
+	testutils
+	)
+add_test(suite_Command_str suite_Command_str_exec)
+
+
+add_executable(suite_CommandParser_pair_bracket_exec suite_CommandParser_pair_bracket.cpp)
+target_link_libraries(suite_CommandParser_pair_bracket_exec
+	parserio
+	testutils
+	)
+add_test(suite_CommandParser_pair_bracket suite_CommandParser_pair_bracket_exec)
+
+add_executable(suite_CommandParser_parse_to_units_exec suite_CommandParser_parse_to_units.cpp)
+target_link_libraries(suite_CommandParser_parse_to_units_exec
+	parserio
+	testutils
+	)
+add_test(suite_CommandParser_parse_to_units suite_CommandParser_parse_to_units_exec)

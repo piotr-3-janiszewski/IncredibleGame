@@ -1,7 +1,7 @@
 #pragma once
 
 enum class ParseUnitType {
+	UNASSIGNED,
 	COMMAND,
-	ARGUMENT,
-	PLAIN_TEXT
+	PLAINTEXT
 };
