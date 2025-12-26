@@ -57,3 +57,7 @@ void IOManager::format_and_print(std::string message) {
 	ioenvironment->print_formatted(formatted_message);
 	return;
 }
+
+std::string::size_type IOManager::get_width() {
+	return ioenvironment->get_width();
+}

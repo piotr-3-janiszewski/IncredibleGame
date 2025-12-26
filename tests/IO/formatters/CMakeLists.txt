@@ -43,3 +43,19 @@ target_link_libraries(suite_WidenFormatter_exec
 	testutils
 	)
 add_test(suite_WidenFormatter suite_WidenFormatter_exec)
+
+add_executable(suite_DiceFormatter_exec suite_DiceFormatter.cpp)
+target_link_libraries(suite_DiceFormatter_exec 
+	formattedio
+	decoratorsio
+	testutils
+	)
+add_test(suite_DiceFormatter suite_DiceFormatter_exec)
+
+add_executable(suite_BoxFormatter_exec suite_BoxFormatter.cpp)
+target_link_libraries(suite_BoxFormatter_exec 
+	formattedio
+	decoratorsio
+	testutils
+	)
+add_test(suite_BoxFormatter suite_BoxFormatter_exec)

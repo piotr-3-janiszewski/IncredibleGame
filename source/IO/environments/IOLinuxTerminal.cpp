@@ -14,3 +14,7 @@ char IOLinuxTerminal::read_choice() {
 const char* IOLinuxTerminal::get_name() {
 	return "Linux terminal environment";
 }
+
+std::string::size_type IOLinuxTerminal::get_width() {
+	return 80;
+}

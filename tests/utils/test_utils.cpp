@@ -13,3 +13,11 @@ int assert_strings_equal(std::string correct, std::string test_result) {
 	return 0;
 }
 
+int assert_true(bool correct, std::string fail_message) {
+	if (!correct) {
+		std::cout << fail_message << std::endl;
+		return -1;
+	}
+
+	return 0;
+}

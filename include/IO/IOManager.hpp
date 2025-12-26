@@ -15,4 +15,5 @@ public:
 	
 	int read_choice();
 	void format_and_print(std::string message);
+	std::string::size_type get_width();
 };
