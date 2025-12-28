@@ -5,6 +5,9 @@ add_library(decoratorsio STATIC
 	WidenFormatter.cpp
 	DiceFormatter.cpp
 	BoxFormatter.cpp
+	LeftOverCommandsFormatter.cpp
+	AffirmativeNegativeFormatter.cpp
+	RainbowFormatter.cpp
 #	UpperFormatter.cpp
 #	LowerFormatter.cpp
 	)

@@ -1,3 +1,5 @@
+#pragma once
+
 #include <IO/formatters/parser/CommandParser.hpp>
 #include <IO/FormatterDecorator.hpp>
 

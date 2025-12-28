@@ -13,7 +13,9 @@ public:
 	IOManager(const IOManager&) = delete;
 	IOManager& operator=(const IOManager&) = delete;
 	
-	int read_choice();
-	void format_and_print(std::string message);
+	char read_choice();
+	void wait();
+	char read_repeat(std::string acceptable);
+	void format_and_print(std::string options);
 	std::string::size_type get_width();
 };

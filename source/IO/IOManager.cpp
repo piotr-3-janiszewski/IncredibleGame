@@ -41,12 +41,26 @@ IOManager& IOManager::access_singleton() {
 	return the_only_instance;
 }
 
-int IOManager::read_choice() {
-	int result = ioenvironment->read_choice();
-
-	std::clog << "Read in the " << result << ". choice" << std::endl;
+char IOManager::read_choice() {
+	char result = ioenvironment->read_choice();
 
 	return result;
+}
+
+void IOManager::wait() {
+	ioenvironment->wait();
+}
+
+char IOManager::read_repeat(std::string options) {
+	char read_value = ioenvironment->read_choice();
+
+	while (!options.contains(read_value)) {
+		format_and_print(std::string("/paint{red}<No such option, try again!>\nTry one of the following: /widen<") + read_value + ">.");
+
+		read_value = ioenvironment->read_choice();
+	}
+
+	return read_value;
 }
 
 void IOManager::format_and_print(std::string message) {

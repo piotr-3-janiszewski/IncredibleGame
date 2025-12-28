@@ -4,3 +4,7 @@ add_library(parserio STATIC
 	CommandParser.cpp
 	ParsingFormatterTemplate.cpp
 	)
+
+target_link_libraries(parserio
+	utils
+	)

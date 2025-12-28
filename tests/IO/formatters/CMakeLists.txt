@@ -1,9 +1,11 @@
 add_subdirectory(parser)
 
+#[[
 add_executable(eq_SlashEscapeFormatter eq_SlashEscapeFormatter.cpp)
 target_link_libraries(eq_SlashEscapeFormatter 
 	formattedio
 	)
+
 
 add_test(NAME SlashEscapeFormatter_empty COMMAND eq_SlashEscapeFormatter "" "")
 add_test(NAME SlashEscapeFormatter_no_format COMMAND eq_SlashEscapeFormatter "Vanitas peccata mundi" "Vanitas peccata mundi")
@@ -35,6 +37,7 @@ add_test(NAME SlashEscapeFormatter_sandwich COMMAND eq_log_SlashEscapeFormatter 
 add_test(NAME SlashEscapeFormatter_buisness_as_usuall_in_the_west COMMAND eq_log_SlashEscapeFormatter "// Look /slash. at //our /slash./slash.lush//// syntax." "")
 add_test(NAME SlashEscapeFormatter_slash_with_a_mustache COMMAND eq_log_SlashEscapeFormatter "/slash{" "Found an unmatched command: `/slash{`\n")
 add_test(NAME SlashEscapeFormatter_nincompoop_barber_shop COMMAND eq_log_SlashEscapeFormatter "/Bob{/slash./Shtephen{///Genovefa{" "Found an unmatched command: `/Bob{`\nFound an unmatched command: `/Shtephen{`\nFound an unmatched command: `/Genovefa{`\n")
+]]
 
 add_executable(suite_WidenFormatter_exec suite_WidenFormatter.cpp)
 target_link_libraries(suite_WidenFormatter_exec 

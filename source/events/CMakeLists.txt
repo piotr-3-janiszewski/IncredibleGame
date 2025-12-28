@@ -1,0 +1,9 @@
+add_library(events
+	Event.cpp
+	EventChain.cpp
+	GameState.cpp
+	links/IntroductionEvent.cpp
+	)
+target_link_libraries(events
+	formattedio
+	)

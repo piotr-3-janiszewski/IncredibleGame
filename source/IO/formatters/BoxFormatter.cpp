@@ -27,6 +27,8 @@ std::string BoxFormatter::execute_command(Command command) {
 	BoxPosition box_position = BoxPosition::CENTER;
 	TextPosition text_position = TextPosition::CENTER;
 	std::string::size_type desired_width = 0;
+	std::string begin_border_modifiers;
+	std::string end_border_modifiers;
 	std::vector<std::string> lines{};
 
 	bool one_code_argument = false;
@@ -43,8 +45,6 @@ std::string BoxFormatter::execute_command(Command command) {
 
 	int option_counter = 0;
 
-	std::string begin_border_modifiers;
-	std::string end_border_modifiers;
 
 	for (const Argument& argument : command.arguments) {
 		if (argument.type != ArgumentType::OPTION)
@@ -195,27 +195,66 @@ std::string BoxFormatter::execute_command(Command command) {
 	std::string margin(margin_left_length, ' ');
 	
 	std::ostringstream result_stream;
-	result_stream << margin << begin_border_modifiers << borders[0];
-	for (std::string::size_type i = 0; i < box_inside_width; i++)
-		result_stream << borders[1];
-	result_stream << borders[2] << end_border_modifiers << std::endl;
+	//result_stream << margin << begin_border_modifiers << borders[0];
+	//for (std::string::size_type i = 0; i < box_inside_width; i++)
+	//	result_stream << borders[1];
+	//result_stream << borders[2] << end_border_modifiers << std::endl;
+	bool title_line_printed = false;
 	for (const std::string& line : lines) {
-		result_stream << margin << begin_border_modifiers << borders[3] << end_border_modifiers;
-
 		std::string::size_type line_length = count_code_points(line);
 		std::string::size_type spaces = box_inside_width - line_length;
 
-		if (text_position == TextPosition::LEFT) {
-			result_stream << line << std::string(spaces, ' ');
-		}
-		else if (text_position == TextPosition::CENTER) {
-			result_stream << std::string(spaces / 2, ' ') << line << std::string((spaces + 1) / 2, ' ');
+		result_stream << margin << begin_border_modifiers;
+
+		if (title_line_printed == false) {
+			result_stream << borders[0];
+			if (text_position == TextPosition::LEFT) {
+				result_stream << end_border_modifiers;
+				result_stream << line;
+				result_stream << begin_border_modifiers;
+				for (std::string::size_type i = 0; i < spaces; i++)
+					result_stream << borders[1];
+				result_stream << end_border_modifiers;
+
+			}
+			else if (text_position == TextPosition::CENTER) {
+				for (std::string::size_type i = 0; i < spaces / 2; i++)
+					result_stream << borders[1];
+				result_stream << end_border_modifiers;
+				result_stream << line;
+				result_stream << begin_border_modifiers;
+				for (std::string::size_type i = 0; i < (spaces + 1) / 2; i++)
+					result_stream << borders[1];
+				result_stream << end_border_modifiers;
+			}
+			else if (text_position == TextPosition::RIGHT) {
+				for (std::string::size_type i = 0; i < spaces; i++)
+					result_stream << borders[1];
+				result_stream << end_border_modifiers;
+				result_stream << line;
+			}
+
+			result_stream << begin_border_modifiers;
+			result_stream << borders[2];
+			result_stream << end_border_modifiers << std::endl;;
+
+			title_line_printed = true;
 		}
 		else {
-			result_stream << std::string(spaces, ' ') << line;
-		}
+			result_stream << borders[3] << end_border_modifiers;
 
-		result_stream << begin_border_modifiers << borders[4] << end_border_modifiers << std::endl;
+			if (text_position == TextPosition::LEFT) {
+				result_stream << line << std::string(spaces, ' ');
+			}
+			else if (text_position == TextPosition::CENTER) {
+				result_stream << std::string(spaces / 2, ' ') << line << std::string((spaces + 1) / 2, ' ');
+			}
+			else {
+				result_stream << std::string(spaces, ' ') << line;
+			}
+
+			result_stream << begin_border_modifiers << borders[4] << end_border_modifiers << std::endl;
+		}
 	}
 	result_stream << margin << begin_border_modifiers << borders[5];
 	for (std::string::size_type i = 0; i < box_inside_width; i++)

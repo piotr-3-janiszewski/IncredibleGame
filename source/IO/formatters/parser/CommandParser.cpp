@@ -1,7 +1,27 @@
 #include <IO/formatters/parser/CommandParser.hpp>
+#include <utils/UTF_8_utils.hpp>
 
 #include <regex>
 #include <iostream>
+
+std::string::size_type CommandParser::calculate_code_codepoints(std::string message) {
+	std::string::size_type overall_codepoints = 0;
+	
+	std::vector<ParseUnit> units = parse_to_units(message, {});
+
+	for (ParseUnit& unit : units) {
+		if (unit.type == ParseUnitType::PLAINTEXT) {
+			overall_codepoints += count_code_points(unit.plaintext_payload);
+		}
+		else if (unit.type == ParseUnitType::COMMAND) {
+			for (const Argument& argument : unit.command_payload.arguments)
+				if (argument.type == ArgumentType::CODE)
+					overall_codepoints += (calculate_code_codepoints(argument.payload));
+		}
+	}
+
+	return overall_codepoints;
+}
 
 std::string::const_iterator CommandParser::pair_bracket(std::string::const_iterator beginning, std::string::const_iterator end, std::string::value_type opening_bracket, std::string::value_type closing_bracket) {
 	int bracket_level = (*beginning == opening_bracket ? 1 : 0);
@@ -117,8 +137,13 @@ std::vector<ParseUnit> CommandParser::parse_to_units(std::string to_parse, std::
 	}
 
 #ifndef NDEBUG
-	std::clog << "Parsed: " << to_parse << std::endl;
-	std::clog << "To: " << std::endl;;
+	std::clog << "Parsing against:" << std::endl;
+
+	for (std::string command_name : commands)
+		std::clog << command_name << std::endl;
+
+	std::clog << "Parsed: " << std::endl << to_parse << std::endl;
+	std::clog << "To: " << std::endl;
 	for (ParseUnit unit : result) {
 		if (unit.type == ParseUnitType::PLAINTEXT)
 			std::clog << "TXT\t"<< unit.plaintext_payload << std::endl;

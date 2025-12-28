@@ -3,7 +3,7 @@
 #include <IO/formatters/parser/ParsingFormatterTemplate.hpp>
 
 // Use:
-// /box{type}{thickness}{box_position}{width}{border-modifier_1}{vorder-modifier_2}...{border-modifier_n}<line_1><line_2>...<line_n>
+// /box<title>{type}{thickness}{box_position}{width}{border-modifier_1}{vorder-modifier_2}...{border-modifier_n}<line_1><line_2>...<line_n>
 // ~type ∈ {normal, double-dash, triple-dash, dots, double, ascii, funky}
 // ~thickness ∈ {light, heavy} 					# Doesn't have any effect if you use type {double} 
 // ~box_position ∈ {left, center, right, justify}
