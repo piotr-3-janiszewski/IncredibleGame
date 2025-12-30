@@ -9,6 +9,7 @@
 #include <IO/formatters/ChoiceFormatter.hpp>
 #include <IO/formatters/DialogueFormatter.hpp>
 #include <IO/formatters/CardFormatter.hpp>
+#include <IO/formatters/BannerFormatter.hpp>
 
 
 FormatterDecorator* FormatterDecoratorConfigurator::make_decorator_chain(std::initializer_list<FormatterDecorator*> decorators) {
@@ -30,6 +31,7 @@ FormatterDecorator* FormatterDecoratorConfigurator::get_decorator_chain() {
 	return make_decorator_chain({
 		new ChoiceFormatter(),
 		new DialogueFormatter(),
+		new BannerFormatter(),
 		new AffirmativeNegativeFormatter(),
 		new WidenFormatter(),
 		new CardFormatter(),

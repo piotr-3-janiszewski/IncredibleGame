@@ -7,5 +7,5 @@ int main() {
 
 	io.format_and_print("/hand{2S}{3C}{4D}{5H}{6S}{7C}{8D}{9H}{0S}{JC}{QD}{KH}{AS}{AC}{AD}{AH}.");
 
-	return -1;
+	return 0;
 }

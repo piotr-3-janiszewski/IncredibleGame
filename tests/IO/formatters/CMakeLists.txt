@@ -69,3 +69,10 @@ target_link_libraries(suite_CardFormatter_exec
 	decoratorsio testutils
 	)
 add_test(suite_CardFormatter suite_CardFormatter_exec)
+
+add_executable(suite_BannerFormatter_exec suite_BannerFormatter.cpp)
+target_link_libraries(suite_BannerFormatter_exec 
+	formattedio
+	decoratorsio testutils
+	)
+add_test(suite_BannerFormatter suite_BannerFormatter_exec)

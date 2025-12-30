@@ -1,5 +1,9 @@
 add_subdirectory(parser)
 
+set(FONTS_DIRECTORY_PARENT ${CMAKE_SOURCE_DIR})
+
+add_compile_definitions(FONTS_DIRECTORY_PARENT="${FONTS_DIRECTORY_PARENT}")
+
 add_library(decoratorsio STATIC
 	SlashEscapeFormatter.cpp
 	WidenFormatter.cpp
@@ -11,6 +15,7 @@ add_library(decoratorsio STATIC
 	RainbowFormatter.cpp
 	ChoiceFormatter.cpp
 	DialogueFormatter.cpp
+	BannerFormatter.cpp
 #	UpperFormatter.cpp
 #	LowerFormatter.cpp
 	)
