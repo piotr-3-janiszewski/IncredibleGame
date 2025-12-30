@@ -18,26 +18,29 @@ bool IntroductionEvent::run(GameState state, EventChain* chain) {
 	io.format_and_print("You stand in the forest perplexed. You don't have the faintest idea where to look for money. You start strolling around aimlessly.\n");
 	io.wait();
 
-	io.format_and_print("/add_speaker{goat}{}{/paint{red}}<the/widen< /paint{bg-grey}<Gambling Goat>.>.>.");
-	io.format_and_print("/add_speaker{me}<Me>.");
+	io.format_and_print("/add_speaker{goat}{{normal}{light}{left}{left}}{set}{{/paint{grey}}}<the Gambling Goat>.");
+	io.format_and_print("/add_speaker{me}{{normal}{light}{right}{right}}{set}{}<Me>.");
 
-	io.format_and_print("/say{goat}<¡Hola muchacho! ¿Cómo estas? ¿Querías jugar un poquito?>.");
+	io.format_and_print("/say{goat}<¡Hola muchacho!><¿Cómo estas?><¿Querías jugar un poquito?>.");
 	io.format_and_print("You see a goat with long /paint{black}{bg-white}<black horns>., and /paint{red}<red eyes>. It reeks god-awful — probably just like any other billy goat. The rancid stench makes your eyes water a bit.\n");
 	io.wait();
-	io.format_and_print("/say{me}<Why in the name of Fungi do you speak? And why does it sound like latin?>.");
-	io.format_and_print("/add_speaker{satan}</paint{bg-black}{red}<Satan>.>.");
-	io.format_and_print("/say{goat}<I was trying to add a bit of mistery and biblicall atmosphere to my parlance. As a child of /name{satan}<Satan>. it would be unbecoming of me to speak like some svoloch, without /paint{italic}<intrigue>. and /rainbow<mysticism>.!>.");
+	io.format_and_print("/say{me}<Why in the name of Fungi does this /name{goat}<goat>. speak?><And why does it sound like latin?>.");
+	io.format_and_print("/add_speaker{satan}{{normal}{light}{left}{left}{0}{{/paint{bg-black}{red}}}{{/paint{bg-black}{red}}}}{set}{{/paint{bg-black}{red}}}<Satan>.");
+	io.format_and_print("/say{goat}<I was trying to add a bit of mistery and biblicall atmosphere to my parlance.><As a child of /name{satan}<Satan>. it would be unbecoming of me to speak like some svoloch,><without /paint{italic}<intrigue>. and /rainbow<mysticism>.!>.");
 	io.wait();
 	io.format_and_print("You wait a bit, unsure of what to do in the face of an unholy beast talking and claiming to be the child of the Satan himself!\n");
 	io.wait();
 	io.format_and_print("/say{goat}<What are you waiting for you moron? You are going to play with me or not?>.");
 	io.format_and_print("You just notice that the /name{goat}<spawn>. of /name{satan}<Lucifer>. sits behind a trunk, on top of wich lies a deck of cards. A few small anmials blending with the backround sit around the makeshift table and hold a hand of cards.\n");
 	io.wait();
-	io.format_and_print("/choice{q}<Join the /name{goat}<Goat>. and his friends!>{w}</widen</negative<PANIC AND SCREAM>.>{e}<>.");
-	char choice = io.read_repeat("qwe");
+	io.format_and_print("/choice{q}<Join the /name{goat}<Goat>. and his friends!>{w}</widen</negative<PANIC AND SCREAM>.>.>.");
+	char choice = io.read_repeat("qw");
 
-	if (choice != 'q') {
-		io.format_and_print("/negative<interaction unimplemented :(>. you play with the goat /negative<.>.");
+	if (choice == 'w') {
+		io.format_and_print("You /paint{red}<panic>. so hard, that get an /negative<aneursym>. and die.");
+		io.wait();
+		io.format_and_print("Good job bucko. Better luck (/paint{italic}<skill>.) next time!");
+		io.wait();
 	}
 
 	return go_to_next(state, chain);

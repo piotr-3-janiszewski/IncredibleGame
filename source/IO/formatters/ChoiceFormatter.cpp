@@ -1,59 +1,65 @@
-#include <IO/formatters/WidenFormatter.hpp>
+#include <IO/formatters/ChoiceFormatter.hpp>
 
 #include <iostream>
 
-std::string WidenFormatter::execute_command(Command command) {
-	if (command.arguments.size() != 1) {
-		std::cerr << get_name() << " bad number of arguments, is " << command.arguments.size() << " should be 1." << std::endl;
+std::string ChoiceFormatter::execute_command(Command command) {
+	bool contains_option = false;
+	for (const Argument& argument : command.arguments)
+		if (argument.type == ArgumentType::OPTION)
+			contains_option = true;
+	
+	if (!contains_option) {
+		std::cerr << get_name() << " doesn't contain any choice";
 		return command.str();
 	}
 
-	if (command.arguments[0].type != ArgumentType::CODE) {
-		std::cerr << get_name() << " argument not code type: " << command.arguments[0].str() << std::endl;
-	}
-
-	
-	std::vector<ParseUnit> units = CommandParser::parse_to_units(command.arguments[0].payload, {});
 	std::ostringstream result_stream;
+	std::vector<Argument>::const_iterator argument_iterator = command.arguments.begin();
 
-	for (ParseUnit& unit : units) {
-		if (unit.type == ParseUnitType::PLAINTEXT) {
-			bool first_character_printed = false;
-			for (const char& character : unit.plaintext_payload) {
-				// Strings use UTF-8 encoding. Each code point may have either 1, 2, 3 or 4 bytes, but the first one never beggins with 0b10
-				if (first_character_printed && (((character ^ 0x40) & 0xc0) != 0xc0))
-					result_stream << " ";
-
-				result_stream << character;
-				first_character_printed = true;
-			}
-		}
-		else if (unit.type == ParseUnitType::COMMAND) {
-			for (Argument& argument : unit.command_payload.arguments) {
-				if (argument.type == ArgumentType::CODE) {
-					Command sub_command;
-					sub_command.command_name = "widen";
-					sub_command.arguments.push_back(argument);
-					std::clog << "Ale zabawa: " << sub_command.str() << std::endl;
-					argument.payload = execute_command(sub_command);
-				}
-			}
-			result_stream << unit.command_payload.str();
-		}
-		else 
-			result_stream << "UNASSIGNED";
+	result_stream << "/say{choice}</paint{bold}<";
+	if (argument_iterator->type == ArgumentType::CODE) {
+		result_stream << argument_iterator->payload;
+		++argument_iterator;
 	}
+	else
+		result_stream << "What would you like to do?";
+	result_stream << ">.>";
+
+	while (argument_iterator->type == ArgumentType::CODE) {
+		result_stream << "<" << argument_iterator->payload << ">";
+		++argument_iterator;
+	}
+
+	while(argument_iterator != command.arguments.end()) {
+		result_stream << "<[";
+		result_stream << argument_iterator->payload;
+		++argument_iterator;
+		result_stream << "] /paint{underline}<";
+
+		if (argument_iterator->type == ArgumentType::CODE) {
+			result_stream << argument_iterator->payload;
+			++argument_iterator;
+		}
+		result_stream << ">.>";
+
+		while (argument_iterator->type == ArgumentType::CODE) {
+			result_stream << "</paint{faint}<" << argument_iterator->payload << ">.>";
+			++argument_iterator;
+		}
+	}
+
+	result_stream << ".";
 
 	return result_stream.str();
 }
 
-const std::vector<std::string>& WidenFormatter::get_command_names() {
-	static std::vector<std::string> command_names{"widen"};
+const std::vector<std::string>& ChoiceFormatter::get_command_names() {
+	static std::vector<std::string> command_names{"choice"};
 	return command_names;
 }
 
-const char* WidenFormatter::get_name() {
-	return "WidenFormatter";
+const char* ChoiceFormatter::get_name() {
+	return "ChoiceFormatter";
 }
 
-WidenFormatter::~WidenFormatter() {}
+ChoiceFormatter::~ChoiceFormatter() {}

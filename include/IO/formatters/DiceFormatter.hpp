@@ -13,5 +13,6 @@ protected:
 	std::string execute_command(Command command) override;
 	const std::vector<std::string>& get_command_names() override;
 private:
+	std::string get_nth_line(const char* text, int line);
 	const char* get_dice_art(std::string dice_type, int result);
 };

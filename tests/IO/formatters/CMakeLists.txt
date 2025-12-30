@@ -62,3 +62,10 @@ target_link_libraries(suite_BoxFormatter_exec
 	testutils
 	)
 add_test(suite_BoxFormatter suite_BoxFormatter_exec)
+
+add_executable(suite_CardFormatter_exec suite_CardFormatter.cpp)
+target_link_libraries(suite_CardFormatter_exec 
+	formattedio
+	decoratorsio testutils
+	)
+add_test(suite_CardFormatter suite_CardFormatter_exec)

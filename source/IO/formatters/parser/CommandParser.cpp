@@ -3,6 +3,8 @@
 
 #include <regex>
 #include <iostream>
+#include <set>
+#include <stack>
 
 std::string::size_type CommandParser::calculate_code_codepoints(std::string message) {
 	std::string::size_type overall_codepoints = 0;
@@ -136,7 +138,7 @@ std::vector<ParseUnit> CommandParser::parse_to_units(std::string to_parse, std::
 		processed = to_parse.end();
 	}
 
-#ifndef NDEBUG
+#ifdef PRASER_VERBOSE
 	std::clog << "Parsing against:" << std::endl;
 
 	for (std::string command_name : commands)
@@ -153,6 +155,69 @@ std::vector<ParseUnit> CommandParser::parse_to_units(std::string to_parse, std::
 			std::clog << "UNASSIGNED!" << std::endl;
 	}
 #endif
+
+	return result;
+}
+
+std::vector<Argument> CommandParser::parse_sub_arguments(Argument argument) {
+	std::vector<Argument> result;
+	std::stack<char> brackets;
+
+	std::string::const_iterator argument_iterator = argument.payload.cbegin();
+	std::string::const_iterator argument_end = argument.payload.cend();
+
+	std::string::const_iterator sub_argument_beginning = argument_iterator;
+	// An implementation of a simple state machine with a stack
+	while (argument_iterator != argument_end) {
+		if (*argument_iterator == '{' && brackets.empty()) {
+			brackets.push(*argument_iterator);
+			sub_argument_beginning = argument_iterator + 1;
+		}
+		else if (*argument_iterator == '{' && !brackets.empty()) {
+			brackets.push(*argument_iterator);
+		}
+		else if (*argument_iterator == '<' && brackets.empty()) {
+			brackets.push(*argument_iterator);
+			sub_argument_beginning = argument_iterator + 1;
+		}
+		else if (*argument_iterator == '<' && !brackets.empty()) {
+			brackets.push(*argument_iterator);
+		}
+		else if (*argument_iterator == '}' && brackets.empty()) {
+			std::cerr << "Encountered an unmatching bracket during the parsing of sub-arguments in:\n" << argument.payload << argument.payload << std::endl;
+			return result;
+		}
+		else if (*argument_iterator == '>' && brackets.empty()) {
+			std::cerr << "Encountered an unmatching bracket during the parsing of sub-arguments in:\n" << argument.payload << argument.payload << std::endl;
+			return result;
+		}
+		else if (*argument_iterator == '}' && brackets.top() == '{') {
+			if (brackets.size() == 1) {
+				Argument argument_to_push;
+				argument_to_push.payload = std::string(sub_argument_beginning, argument_iterator);
+				argument_to_push.type = ArgumentType::OPTION;
+				result.push_back(argument_to_push);
+			}
+			
+			brackets.pop();
+		}
+		else if (*argument_iterator == '>' && brackets.top() == '<') {
+			if (brackets.size() == 1) {
+				Argument argument_to_push;
+				argument_to_push.payload = std::string(sub_argument_beginning, argument_iterator);
+				argument_to_push.type = ArgumentType::CODE;
+				result.push_back(argument_to_push);
+			}
+			
+			brackets.pop();
+		}
+		else if (brackets.empty()) {
+			std::cerr << "Encountered a character outside of brackets during parsing sub-arguments in:\n" << argument.payload << argument.payload << std::endl;
+			return result;
+		}
+
+		++argument_iterator;
+	}
 
 	return result;
 }

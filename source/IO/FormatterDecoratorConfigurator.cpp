@@ -6,6 +6,10 @@
 #include <IO/formatters/LeftOverCommandsFormatter.hpp>
 #include <IO/formatters/AffirmativeNegativeFormatter.hpp>
 #include <IO/formatters/RainbowFormatter.hpp>
+#include <IO/formatters/ChoiceFormatter.hpp>
+#include <IO/formatters/DialogueFormatter.hpp>
+#include <IO/formatters/CardFormatter.hpp>
+
 
 FormatterDecorator* FormatterDecoratorConfigurator::make_decorator_chain(std::initializer_list<FormatterDecorator*> decorators) {
 	FormatterDecorator* const * result_handle = decorators.begin();
@@ -24,8 +28,11 @@ FormatterDecorator* FormatterDecoratorConfigurator::make_decorator_chain(std::in
 
 FormatterDecorator* FormatterDecoratorConfigurator::get_decorator_chain() {
 	return make_decorator_chain({
+		new ChoiceFormatter(),
+		new DialogueFormatter(),
 		new AffirmativeNegativeFormatter(),
 		new WidenFormatter(),
+		new CardFormatter(),
 		new DiceFormatter(),
 		new RainbowFormatter(),
 		new BoxFormatter(),

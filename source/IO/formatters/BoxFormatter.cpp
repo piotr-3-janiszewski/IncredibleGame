@@ -17,7 +17,7 @@ const std::vector<std::string>& BoxFormatter::get_command_names() {
 }
 
 std::string BoxFormatter::execute_command(Command command) {
-	enum class BoxType {NORMAL, DOUBLE_DASH, TRIPLE_DASH, DOTS, DOUBLE, CROSS, FUNKY};
+	enum class BoxType {NORMAL, DOUBLE_DASH, TRIPLE_DASH, DOTS, DOUBLE, CROSS, FUNKY, NONE};
 	enum class BoxThickness {LIGHT, HEAVY};
 	enum class BoxPosition {LEFT, CENTER, RIGHT, JUSTIFY};
 	enum class TextPosition {LEFT, CENTER, RIGHT};
@@ -27,8 +27,10 @@ std::string BoxFormatter::execute_command(Command command) {
 	BoxPosition box_position = BoxPosition::CENTER;
 	TextPosition text_position = TextPosition::CENTER;
 	std::string::size_type desired_width = 0;
-	std::string begin_border_modifiers;
-	std::string end_border_modifiers;
+	std::string begin_border_modifiers{};
+	std::string end_border_modifiers{};
+	std::string begin_text_modifiers{};
+	std::string end_text_modifiers{};
 	std::vector<std::string> lines{};
 
 	bool one_code_argument = false;
@@ -59,7 +61,8 @@ std::string BoxFormatter::execute_command(Command command) {
 				{"dots", BoxType::DOTS},
 				{"double", BoxType::DOUBLE},
 				{"cross", BoxType::CROSS},
-				{"funky", BoxType::FUNKY}
+				{"funky", BoxType::FUNKY},
+				{"none", BoxType::NONE}
 			};
 
 	 		if (!to_enum.contains(argument.payload)) {
@@ -121,10 +124,27 @@ std::string BoxFormatter::execute_command(Command command) {
 
 			desired_width = static_cast<std::string::size_type>(std::stoi(argument.payload));
 		}
-		else {
-			begin_border_modifiers += argument.payload + "<";
-			end_border_modifiers += ">.";
+		else if (option_counter == 5) {
+			option_counter++;
+			std::vector<Argument> sub_arguments = CommandParser::parse_sub_arguments(argument);
+			for (const Argument& sub_argument : sub_arguments) {
+				begin_border_modifiers += sub_argument.payload + "<";
+				end_border_modifiers += ">.";
+			}
 		}
+		else if (option_counter == 6) {
+			option_counter++;
+			std::vector<Argument> sub_arguments = CommandParser::parse_sub_arguments(argument);
+			for (const Argument& sub_argument : sub_arguments) {
+				begin_text_modifiers += sub_argument.payload + "<";
+				end_text_modifiers += ">.";
+			}
+		}
+		else {
+			std::cerr << get_name() << " Too many arguments" << std::endl;
+			return command.str();
+		}
+			
 	}
 
 	// 0. upper_left, 1. up, 2. upper_right, 3. left, 4. right, 5. bottom_left, 6. bottom, 7. bottom_right
@@ -155,17 +175,19 @@ std::string BoxFormatter::execute_command(Command command) {
 		borders = {"┼─","─", "─┼", "│ ", " │", "┼─", "─", "─┼"};
 	else if (box_type == BoxType::CROSS && box_thickness == BoxThickness::HEAVY)
 		borders = {"╋━","━", "━╋", "┃ ", " ┃", "╋━", "━", "━╋"};
+	else if (box_type == BoxType::NONE)
+		borders = {" "," ", " ", " ", " ", " ", " ", " "};
 
 	std::string::size_type border_width = 0;
 	for (const std::string& border : borders) {
-		std::string::size_type current_border_width = count_code_points(border);
+		std::string::size_type current_border_width = CommandParser::calculate_code_codepoints(border);
 		if (current_border_width > border_width)
 			border_width = current_border_width;
 	}
 
 	std::string::size_type max_line_width = 0;
 	for (const std::string& line : lines) {
-		std::string::size_type current_line_width = count_code_points(line);
+		std::string::size_type current_line_width = CommandParser::calculate_code_codepoints(line);
 		if (current_line_width > max_line_width)
 			max_line_width = current_line_width;
 	}
@@ -201,7 +223,7 @@ std::string BoxFormatter::execute_command(Command command) {
 	//result_stream << borders[2] << end_border_modifiers << std::endl;
 	bool title_line_printed = false;
 	for (const std::string& line : lines) {
-		std::string::size_type line_length = count_code_points(line);
+		std::string::size_type line_length = CommandParser::calculate_code_codepoints(line);
 		std::string::size_type spaces = box_inside_width - line_length;
 
 		result_stream << margin << begin_border_modifiers;
@@ -243,6 +265,7 @@ std::string BoxFormatter::execute_command(Command command) {
 		else {
 			result_stream << borders[3] << end_border_modifiers;
 
+			result_stream << begin_text_modifiers;
 			if (text_position == TextPosition::LEFT) {
 				result_stream << line << std::string(spaces, ' ');
 			}
@@ -252,6 +275,7 @@ std::string BoxFormatter::execute_command(Command command) {
 			else {
 				result_stream << std::string(spaces, ' ') << line;
 			}
+			result_stream << end_text_modifiers;
 
 			result_stream << begin_border_modifiers << borders[4] << end_border_modifiers << std::endl;
 		}

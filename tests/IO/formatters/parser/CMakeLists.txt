@@ -26,3 +26,10 @@ target_link_libraries(suite_CommandParser_calculate_code_codepoints_exec
 	testutils
 	)
 add_test(suite_CommandParser_calculate_code_codepoints suite_CommandParser_calculate_code_codepoints_exec)
+
+add_executable(suite_CommandParser_parse_sub_arguments_exec suite_CommandParser_parse_sub_arguments.cpp)
+target_link_libraries(suite_CommandParser_parse_sub_arguments_exec
+	parserio
+	testutils
+	)
+add_test(suite_CommandParser_parse_sub_arguments suite_CommandParser_parse_sub_arguments_exec)

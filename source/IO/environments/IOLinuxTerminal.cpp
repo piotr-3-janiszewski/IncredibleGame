@@ -3,6 +3,7 @@
 #include <iostream>
 #include <unordered_map>
 #include <sstream>
+#include <cstdio>
 
 std::string IOLinuxTerminal::begin_escape(std::vector<int> codes) {
 	std::string result;
@@ -41,8 +42,8 @@ std::string IOLinuxTerminal::end_escape() {
 
 	result_stream << "\033[0m";
 	
-	if (escape_codes_history.size() > 0)
-		result_stream << *(escape_codes_history.end());
+	if (escape_codes_history.empty() == false)
+		result_stream << escape_codes_history.back();
 	
 	return result_stream.str();
 }
@@ -184,7 +185,10 @@ char IOLinuxTerminal::read_choice() {
 }
 
 void IOLinuxTerminal::wait() {
-	system("read -n 1");
+	char garbage;
+	system("stty -icanon icrnl");
+	std::cin.get(garbage);
+	system("stty cooked");
 }
 
 const char* IOLinuxTerminal::get_name() {

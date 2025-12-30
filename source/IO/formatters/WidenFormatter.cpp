@@ -34,7 +34,6 @@ std::string WidenFormatter::execute_command(Command command) {
 					Command sub_command;
 					sub_command.command_name = "widen";
 					sub_command.arguments.push_back(argument);
-					std::clog << "Ale zabawa: " << sub_command.str() << std::endl;
 					argument.payload = execute_command(sub_command);
 				}
 			}

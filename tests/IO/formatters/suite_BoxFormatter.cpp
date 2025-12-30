@@ -1,6 +1,10 @@
 #include <utils/test_utils.hpp>
 #include <IO/formatters/BoxFormatter.hpp>
 
+#ifdef __linux__
+#include <IO/environments/IOLinuxTerminal.hpp>
+#endif
+
 int main() {
 	BoxFormatter formatter;
 	std::cout << formatter.format("/box<><Holis mundo!>.");
@@ -23,6 +27,13 @@ int main() {
 	std::cout << formatter.format("/box{double}{light}{left}<Apollo i Marsjasz><właściwy pojedynek Apollona><z Marsjaszem><(słuch absolutny><kontra ogromna skala)><odbywa się pod wieczór><gdy jak już wiemy><sędziowie><przyznali zwycięstwo bogu>.");
 	std::cout << formatter.format("/box{double}{light}{right}{left}<Kowal><Całą bezkształtną masę kruszców drogocennych,><Które zaległy piersi mej głąb nieodgadłą,><Jak wulkan z swych otchłani wyrzucam bezdennych><I ciskam ją na twarde, stalowe kowadło.>.");
 	std::cout << formatter.format("/box{dots}{light}{left}{right}<ZABITE DRZEWO><Z ciemnych mojego lasu drzew jedno najcichsze><Ukochałem, najbardziej smutne i najwiotsze:><><Brzozę, co nie szumiała w najszaleńszym wichrze,><Zawsze niema, choć wiatru wiew się o nią otrze.>.");
-	
-	return -1;
+
+#ifdef __linux__
+	IOLinuxTerminal term;
+	term.print_formatted(formatter.format("/box{double}{light}{center}{left}{0}{{/paint{red}{bg-black}}}</paint{bg-black}{red}<METAL>.></paint{bg-black}{red}<metalmetalmetalmetalmetalmetalmetalmetalmetalmetal>.>."));
+	term.print_formatted(formatter.format("/paint{italic}{faint}{green}</box{none}{heavy}{center}{center}{0}{{/paint{bg-blue}}}<I żyli><><długo><...><><i><><...><><szczęśliwie!>.>."));
+	term.print_formatted(formatter.format("/box{double}{light}{center}{center}{0}{{/paint{bg-black}{red}{blink}}}{{/paint{bg-black}{red}{fast-blink}}}<Epilepsy><Epilepsy is a group of neurological disorders characterized by><a tendency for recurrent, unprovoked seizures.[10] A seizure is><a sudden burst of abnormal electrical activity in the brain that ><can cause a variety of symptoms, ranging from brief lapses of ><awareness or muscle jerks to prolonged convulsions.>."));
+#endif
+
+	return 0;
 }

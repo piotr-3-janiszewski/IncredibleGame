@@ -1,0 +1,5 @@
+add_executable(suite_IOLinuxTerminal_paint_exec suite_IOLinuxTerminal_paint.cpp)
+target_link_libraries(suite_IOLinuxTerminal_paint_exec 
+	formattedio
+	)
+add_test(suite_IOLinuxTerminal_paint suite_IOLinuxTerminal_paint_exec)

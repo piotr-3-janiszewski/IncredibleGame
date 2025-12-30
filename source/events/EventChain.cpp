@@ -19,7 +19,7 @@ void EventChain::begin() {
 bool EventChain::end(GameState state) {
 	IOManager& io = IOManager::access_singleton();
 	io.format_and_print(state.str());
-	io.format_and_print("/choice<Would you like to play again?>{y}</affirmative<Yes!>.>{n}</negative<No...>.>");
+	io.format_and_print("/choice<Would you like to play again?>{y}</affirmative<Yes!>.>{n}</negative<No...>.>.");
 
 	char choice;
 	choice = io.read_repeat("yn");

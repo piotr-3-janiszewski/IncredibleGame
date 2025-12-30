@@ -7,7 +7,7 @@ const char* DiceFormatter::get_name() {
 	return "DiceFormatter";
 }
 
-std::string get_nth_line(const char* text, int line) {
+std::string DiceFormatter::get_nth_line(const char* text, int line) {
 	const char* iterator = text;
 	for (int i = 0; i < line; i++) {
 		while (*iterator != '\n')
