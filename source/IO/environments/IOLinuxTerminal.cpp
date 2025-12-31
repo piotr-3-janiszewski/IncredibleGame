@@ -175,7 +175,7 @@ std::string IOLinuxTerminal::paint_text(std::string message) {
 }
 
 void IOLinuxTerminal::print_formatted(std::string message) {
-	std::cout << paint_text(message) << std::endl;
+	std::cout << paint_text(message);
 }
 
 char IOLinuxTerminal::read_choice() {

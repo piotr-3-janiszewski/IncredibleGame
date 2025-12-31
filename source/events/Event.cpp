@@ -9,7 +9,7 @@ void Event::set_next(Event* next_event) {
 
 bool Event::go_to_next(GameState state, EventChain* chain) {
 	if (next_event == nullptr) {
-		state.victory = true;
+		state.get_bool_entry("victory") = true;
 		return chain->end(state);
 	}
 
