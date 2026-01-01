@@ -55,7 +55,7 @@ char IOManager::read_repeat(std::string options) {
 	char read_value = ioenvironment->read_choice();
 
 	while (!options.contains(read_value)) {
-		format_and_print(std::string("/paint{red}<No such option, try again!>\nTry one of the following: /widen<") + read_value + ">.");
+		format_and_print(std::string("/paint{red}<No such option, try again!>.\nTry one of the following: /widen<") + options + ">.\n");
 
 		read_value = ioenvironment->read_choice();
 	}

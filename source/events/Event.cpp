@@ -1,16 +1,16 @@
 #include <events/Event.hpp>
 
 void Event::set_next(Event* next_event) {
-	if (next_event != nullptr)
+	if (this->next_event != nullptr)
 		delete next_event;
 
 	this->next_event = next_event;
 }
 
-bool Event::go_to_next(GameState state, EventChain* chain) {
+GameState Event::go_to_next(GameState& state, EventChain* chain) {
 	if (next_event == nullptr) {
-		state.get_bool_entry("victory") = true;
-		return chain->end(state);
+		state.set_entry("victory", true);
+		return state;
 	}
 
 	return next_event->run(state, chain);

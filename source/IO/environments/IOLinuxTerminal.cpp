@@ -181,6 +181,7 @@ void IOLinuxTerminal::print_formatted(std::string message) {
 char IOLinuxTerminal::read_choice() {
 	char result;
 	std::cin >> result;
+	std::cin.ignore(1);
 	return result;
 }
 

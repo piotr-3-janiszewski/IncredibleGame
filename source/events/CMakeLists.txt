@@ -3,6 +3,12 @@ add_library(events
 	EventChain.cpp
 	GameState.cpp
 	links/IntroductionEvent.cpp
+	links/Scenario.cpp
+	links/Game.cpp
+	links/Deck.cpp
+	links/Hand.cpp
+	links/scenarios/SadScenario.cpp
+	links/games/Blackjack.cpp
 	)
 target_link_libraries(events
 	formattedio

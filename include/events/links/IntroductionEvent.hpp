@@ -4,6 +4,6 @@
 
 class IntroductionEvent :public Event {
 public:
-	bool run(GameState state, EventChain* chain);
+	GameState run(GameState& state, EventChain* chain) override;
 	const char* get_name() override;
 };

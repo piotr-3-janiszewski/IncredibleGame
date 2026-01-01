@@ -217,10 +217,6 @@ std::string BoxFormatter::execute_command(Command command) {
 	std::string margin(margin_left_length, ' ');
 	
 	std::ostringstream result_stream;
-	//result_stream << margin << begin_border_modifiers << borders[0];
-	//for (std::string::size_type i = 0; i < box_inside_width; i++)
-	//	result_stream << borders[1];
-	//result_stream << borders[2] << end_border_modifiers << std::endl;
 	bool title_line_printed = false;
 	for (const std::string& line : lines) {
 		std::string::size_type line_length = CommandParser::calculate_code_codepoints(line);

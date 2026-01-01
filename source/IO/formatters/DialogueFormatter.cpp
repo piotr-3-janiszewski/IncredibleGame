@@ -75,7 +75,7 @@ std::string DialogueFormatter::execute_command(Command command) {
 				  }.contains(name_set_to_parse))
 					name_set_parsed = false;
 				else {
-					std::cerr << get_name() << "Argument couldn't be parsed: " << name_set_to_parse << ", in:" << std::endl;
+					std::cerr << get_name() << "Argument (name set) couldn't be parsed: " << name_set_to_parse << ", in:" << std::endl;
 					std::cerr<< command.str();
 				}
 
@@ -101,8 +101,12 @@ std::string DialogueFormatter::execute_command(Command command) {
 			}
 		}
 
-		if ((option != 4 && !speaking_style.name_set) || (option != 5 && speaking_style.name_set)) {
-			std::cerr << get_name() << " Bad number of arguments" << std::endl;
+		if ((option != 4 && !speaking_style.name_set)){
+			std::cerr << get_name() << " Name is not set, while the number of arguments is not equal to 4" << std::endl;
+			return command.str();
+		}
+		else if (option != 5 && speaking_style.name_set) {
+			std::cerr << get_name() << " Name is set, while the number of arguments is not equal to 5" << std::endl;
 			return command.str();
 		}
 

@@ -5,7 +5,7 @@ const char* IntroductionEvent::get_name() {
 	return "Introduction";
 }
 
-bool IntroductionEvent::run(GameState state, EventChain* chain) {
+GameState IntroductionEvent::run(GameState& state, EventChain* chain) {
 	IOManager& io = IOManager::access_singleton();
 
 	io.format_and_print("/paint{bright-yellow}</banner{default}{INTRODUCTION}.>.\n");
@@ -47,6 +47,10 @@ bool IntroductionEvent::run(GameState state, EventChain* chain) {
 		io.wait();
 		io.format_and_print("Good job bucko. Better luck (/paint{italic}<skill>.) next time!\n");
 		io.wait();
+
+		state.add_entry("aunerysm", 1, {true, 1000, "/paint{bg-black, white}<Aunerysms: >.", "/negative<", ">."});
+		
+		return state;
 	}
 
 	return go_to_next(state, chain);

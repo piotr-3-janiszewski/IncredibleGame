@@ -10,9 +10,9 @@ private:
 	Event* next_event = nullptr;
 public:
 	void set_next(Event* next_event);
-	bool go_to_next(GameState state, EventChain* chain);
+	GameState go_to_next(GameState& state, EventChain* chain);
 
-	virtual bool run(GameState state, EventChain* chain) = 0;
+	virtual GameState run(GameState& state, EventChain* chain) = 0;
 	virtual const char* get_name() = 0;
 
 	virtual ~Event();
