@@ -5,6 +5,8 @@
 
 GameState Game::run(GameState& state, EventChain* chain) {
 	io.format_and_print("/add_speaker{game master}{{none}{light}{center}{center}{0}{}{{/paint{italic}}}}{true}{}{***}.");
+	io.format_and_print(std::string("/paint{red}</banner{default}{") + get_name() + "}.>.");
+	io.format_and_print("/say{game master}<" + scenario->with_whom(state) + ">.");
 
 	if (!state.contains("game-name")) {
 		state.add_entry("game-name", get_name(), {false});
@@ -41,6 +43,12 @@ GameState Game::run(GameState& state, EventChain* chain) {
 		state.set_entry("round", i);
 		won = play_round(state, i);
 		state.set_entry("round won", won);
+
+		if (won)
+			io.format_and_print("/say{game master}</affirmative<You win this round!>.><" + std::to_string(3 - i) + " to go...>.");
+		else
+			io.format_and_print("/say{game master}</affirmative<You lose the game!>.>.");
+
 		scenario->after_round(state, i);
 	}
 

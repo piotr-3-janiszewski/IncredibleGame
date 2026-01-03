@@ -94,7 +94,7 @@ bool Blackjack::play_round(GameState& state, int round) {
 
 		bool stay = false;
 		do {
-			io.format_and_print("Dealers hand (" + std::to_string(hand_value(dealers_hand)) + "):\n");
+			io.format_and_print("Dealer's hand (" + std::to_string(hand_value(dealers_hand)) + "):\n");
 			io.format_and_print(dealers_hand.str());
 			io.format_and_print("Your hand (" + std::to_string(hand_value(players_hand)) + "):\n");
 			io.format_and_print(players_hand.str());
@@ -120,7 +120,7 @@ bool Blackjack::play_round(GameState& state, int round) {
 		while (hand_value(dealers_hand) < 17) {
 			dealers_hand.push_back(deck.draw());
 
-			io.format_and_print("Dealers hand (" + std::to_string(hand_value(dealers_hand)) + "):\n");
+			io.format_and_print("Dealer's hand (" + std::to_string(hand_value(dealers_hand)) + "):\n");
 			io.format_and_print(dealers_hand.str());
 			io.format_and_print("Your hand (" + std::to_string(hand_value(players_hand)) + "):\n");
 			io.format_and_print(players_hand.str());
@@ -166,7 +166,7 @@ bool Blackjack::play_round(GameState& state, int round) {
 }
 
 const char* Blackjack::get_name() {
-	return "Blackjack"; 	// TODO: probably it should have the
+	return "BLACKJACK"; 	// TODO: probably it should have the
 				// name of the scenario attached
 				// to the name of the game by default
 				// I'm too lazy to implement that though

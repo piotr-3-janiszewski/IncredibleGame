@@ -8,6 +8,7 @@ class Scenario {
 protected:
 	IOManager& io;
 public:
+	virtual std::string with_whom(GameState& state) = 0;
 	virtual void introduction(GameState& state) = 0;
 	virtual void rules_inquiry(GameState& state) = 0;
 	virtual void begin_game(GameState& state) = 0;

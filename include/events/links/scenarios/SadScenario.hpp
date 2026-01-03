@@ -4,6 +4,7 @@
 
 class SadScenario : public Scenario {
 public:
+	std::string with_whom(GameState& state) override;
 	void introduction(GameState& state) override;
 	void rules_inquiry(GameState& state) override;
 	void begin_game(GameState& state) override;

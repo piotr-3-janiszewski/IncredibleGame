@@ -120,7 +120,11 @@ bool BannerFormatter::load_font_from_file(std::string file_name) {
 			}
 
 			if (new_font.character_dictionary.contains(character_key) == true) {
-				std::clog << get_name() << " Reduplication of the key \"" << character_key << std::endl;
+				std::clog << get_name() << " Reduplication of the key \"" << character_key << "\"" << std::endl;
+				while (true) 0 + 1;
+			}
+			else {
+				std::clog << get_name() << " New key loaded \"" << character_key << "\"" << std::endl;
 			}
 
 			new_font.character_dictionary[character_key] = new_character;

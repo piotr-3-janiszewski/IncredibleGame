@@ -1,5 +1,9 @@
 #include <events/links/scenarios/SadScenario.hpp>
 
+std::string SadScenario::with_whom(GameState& state) {
+	return "with a sad despicable looser";
+}
+
 void SadScenario::introduction(GameState& state) {
 	io.format_and_print("/add_speaker{sad}{{double}{light}{left}{left}}{yes}{{/paint{blue}}}{}.");
 	io.format_and_print("/say{sad}<This is an introduction to a very /name{sad}<sad>. scenario... :<>.");	
